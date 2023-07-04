@@ -63,28 +63,3 @@ theForm.addEventListener("submit", event => {
 });
 
 window.addEventListener("load", _e => render());
-
-// const form = document.querySelector(".js-form");
-// form.addEventListener("submit", event => {
-//   const input = document.querySelector(".js-todo-input");
-
-//   const text = input.value.trim();
-//   if (text !== "") {
-//     addTodo(text);
-//     input.value = "";
-//     input.focus();
-//   }
-// });
-
-// const list = document.querySelector(".js-todo-list");
-// list.addEventListener("click", event => {
-//   if (event.target.classList.contains("js-tick")) {
-//     const itemKey = event.target.parentElement.dataset.key;
-//     toggleDone(itemKey);
-//   }
-
-//   if (event.target.classList.contains("js-delete-todo")) {
-//     const itemKey = event.target.parentElement.dataset.key;
-//     deleteTodo(itemKey);
-//   }
-// });

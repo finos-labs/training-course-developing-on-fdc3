@@ -6,7 +6,6 @@ body {
     font-family: sans-serif;
     line-height: 1.4;
     font-size: 30px;
-    background-color: lightblue;
 }
 
 .container {
@@ -15,7 +14,7 @@ body {
     margin: 0 auto;
 }
 
-.stock-box {
+.box {
     border: 1px solid grey;
     border-radius: 15px;
     margin-bottom: 20px;
@@ -29,6 +28,12 @@ body {
     margin-bottom: 20px;
     font-size: 80px;
     opacity: 0.5;
+}
+
+/* Stock-List Specific Stuff */
+
+body.tradelist {
+    background-color: lightblue;
 }
 
 .stock-list{
@@ -64,4 +69,56 @@ input{
 button {
     font-size: 20px;
     color: #888888;
+}
+
+/* Pricer Specific Stuff */
+
+body.pricer {
+    background-color: lightgoldenrodyellow;
+}
+
+.ticker {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.price {
+    font-size: 110px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.box.d0 .price {
+    color: green;
+    animation-duration: 2s;
+    animation-name: fadingUp;
+}
+
+.box.d1 .price {
+    color: red;
+    animation-duration: 2s;
+    animation-name: fadingDown;
+}
+
+.box.d2 .price {
+    color: grey;
+}
+
+@keyframes fadingUp {
+    from {
+        color: green;
+    }
+    to {
+        color: grey;
+    }
+}
+
+@keyframes fadingDown {
+    from {
+        color: red;
+    }
+    to {
+        color: grey;
+    }
 }
