@@ -10,7 +10,7 @@ This project is source files to accompany the FDC3 Developer Training Course.
 1.  From the Command Line:
     ```
     yarn install
-    yarn vite dev
+    yarn dev
     ```
 
 2. Point browser at http://localhost:5000/static/tradelist/
@@ -36,6 +36,8 @@ export SAIL_DIRECTORY_URL=../training-course-developing-on-fdc3/appd/basic-appd.
 ```
 npm run start
 ```
+
+7.  Start
 
 Complete the developer tutorial to integrate this with FDC3.
 
