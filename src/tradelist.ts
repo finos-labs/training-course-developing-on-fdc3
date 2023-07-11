@@ -1,3 +1,5 @@
+import { fdc3Ready } from "@finos/fdc3";
+
 type StockItem = {
     ticker: string, 
     holding: number,
@@ -37,12 +39,24 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     const value : HTMLTableCellElement = document.createElement("td");
     value.textContent = ""+si.value;
     out.appendChild(value);
-    const remove : HTMLTableCellElement = document.createElement("td");
-    const button : HTMLButtonElement = document.createElement("button");
-    remove.appendChild(button);
-    button.textContent="Remove"
-    button.onclick = () => removeStock(si);
-    out.appendChild(remove);
+    const buttons : HTMLTableCellElement = document.createElement("td");
+    const remove : HTMLButtonElement = document.createElement("button");
+    buttons.appendChild(remove);
+    remove.textContent="Remove"
+    remove.onclick = () => removeStock(si);
+    out.appendChild(buttons);
+    
+    // lab-3
+    if (window.fdc3) {
+        // news button
+        const news : HTMLButtonElement = document.createElement("button");
+        buttons.appendChild(news);
+        news.textContent="News"
+        news.onclick = () => window.fdc3.raiseIntent("ViewNews", 
+            { type: "fdc3.instrument", id: { ticker: si.ticker }});
+
+    }
+
     return out;
 }
 
@@ -59,7 +73,14 @@ const theForm = document.getElementById("js-form") as HTMLFormElement;
 
 theForm.addEventListener("submit", event => {
     event.preventDefault();
-    addStock(theForm.children['ticker'].value,theForm.children['holding'].value);
+    const ticker = document.getElementById("ticker") as HTMLInputElement;
+    const holding = document.getElementById("holding") as HTMLInputElement;
+    if ((ticker.value.length > 0) && (holding.value.length > 0)) {
+        addStock(ticker.value, parseFloat(holding.value));
+    }
 });
 
 window.addEventListener("load", _e => render());
+
+// redraws the screen when FDC3 is enabled, in case we need to see the new buttons
+fdc3Ready().then(() => render());
