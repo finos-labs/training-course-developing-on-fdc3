@@ -42,6 +42,13 @@ npm run start
 
 Complete the developer tutorial to integrate this with FDC3.
 
+
+## Channels
+
+- Observe that setting the workbench, the news and the pricer app to red channel means you can broadcast an instrument context and they'll all update.
+
+
+
 ## Lab 3 Steps
 
 The FDC3 Developer Training Course is divided into modules, which are reflected in the branches of this repo:

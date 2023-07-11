@@ -87,4 +87,11 @@ fdc3Ready().then(() => {
             redraw();
         }
     })
+
+    window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
+        if (instrument?.id?.ticker) {
+            onScreenPrice = getPrice(instrument.id.ticker);
+            redraw();
+        }
+    })
 })
