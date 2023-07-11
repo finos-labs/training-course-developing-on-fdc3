@@ -97,7 +97,7 @@ fdc3Ready().then(() => {
                     s.channel = c;
                     c.addContextListener("fdc3.valuation", valuation => {
                         if (valuation?.value) {
-                            s.value = valuation.value;
+                            s.value = parseFloat((Math.round(valuation.value * 100) / 100).toFixed(2));
                         }
                     });
                     console.log("Listening on "+name)
