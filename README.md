@@ -17,9 +17,29 @@ This project is source files to accompany the FDC3 Developer Training Course.
 
 3. You should be able to see the application start up.
 
+4. Check out and build FDC3 Sail
+
+```
+git checkout git@github.com:finos/FDC3-Sail.git
+cd FDC3-Sail
+npm i
+```
+
+5. Set the FDC3 Sail AppD record:
+
+```
+export SAIL_DIRECTORY_URL=../training-course-developing-on-fdc3/appd/basic-appd.v2.json
+```
+
+6. Start FDC3 Sail
+
+```
+npm run start
+```
+
 Complete the developer tutorial to integrate this with FDC3.
 
-## Project Structure
+## Lab 3 Steps
 
 The FDC3 Developer Training Course is divided into modules, which are reflected in the branches of this repo:
 
