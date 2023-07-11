@@ -20,6 +20,7 @@ This project is source files to accompany the FDC3 Developer Training Course.
 4. Check out and build FDC3 Sail
 
 ```
+cd ..
 git checkout git@github.com:finos/FDC3-Sail.git
 cd FDC3-Sail
 npm i

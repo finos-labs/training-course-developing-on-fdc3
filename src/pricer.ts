@@ -1,3 +1,4 @@
+import { fdc3Ready } from "@finos/fdc3";
 
 enum Direction { UP, DOWN, NONE }
 
@@ -47,7 +48,43 @@ function recalculate() {
     })
 }
 
+
 setInterval(() => {
     recalculate(),
     redraw()
 }, 2000)
+
+// Lab-3
+
+function calculateInitialPrice(ticker: string) : number {
+    // with a real trading system, we'd obviously look up the price.
+    // here, we're going to create one pseudorandomly
+    return ticker.split('')
+        .map(c => c.charCodeAt(0))
+        .reduce((a, b) => a+b, 0) % 5000 / 100;
+}
+
+function getPrice(ticker: string) : Price {
+    // first, check for an existing price
+    let price = prices.find(p => p.ticker === ticker);
+    if (price === undefined) {
+        price = {
+            ticker,
+            price: calculateInitialPrice(ticker),
+            direction: Direction.NONE
+        }
+        prices.push(price);
+    }
+    
+    return price;
+}
+
+fdc3Ready().then(() => {
+
+    window.fdc3.addIntentListener("ViewQuote", (instrument) => {
+        if (instrument?.id?.ticker) {
+            onScreenPrice = getPrice(instrument.id.ticker);
+            redraw();
+        }
+    })
+})
