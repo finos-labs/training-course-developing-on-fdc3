@@ -1,9 +1,10 @@
-import { fdc3Ready } from "@finos/fdc3";
+import { Channel, fdc3Ready } from "@finos/fdc3";
 
 type StockItem = {
     ticker: string, 
     holding: number,
-    value: number
+    value: number,
+    channel?: Channel
 }
 
 let stockItems : StockItem[] = [ {
@@ -83,4 +84,27 @@ theForm.addEventListener("submit", event => {
 window.addEventListener("load", _e => render());
 
 // redraws the screen when FDC3 is enabled, in case we need to see the new buttons
-fdc3Ready().then(() => render());
+fdc3Ready().then(() => {
+    render()
+    
+    // lab-4
+    setInterval(() => {
+        // check channels exist
+        stockItems.forEach(s => {
+            if (!s.channel) {
+                const name = "prices-"+s.ticker;
+                window.fdc3.getOrCreateChannel(name).then(c => {
+                    s.channel = c;
+                    c.addContextListener("fdc3.valuation", valuation => {
+                        if (valuation?.value) {
+                            s.value = valuation.value;
+                        }
+                    });
+                    console.log("Listening on "+name)
+                });
+            }
+        })
+    })
+
+    setInterval(render, 500);
+});

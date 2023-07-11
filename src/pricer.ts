@@ -88,10 +88,22 @@ fdc3Ready().then(() => {
         }
     })
 
+    // lab-4
+
     window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
         if (instrument?.id?.ticker) {
             onScreenPrice = getPrice(instrument.id.ticker);
             redraw();
         }
     })
+
+    setInterval(() => {
+        prices.forEach(p => {
+            window.fdc3.getOrCreateChannel("prices-"+p.ticker).then(c => c.broadcast({
+                type: 'fdc3.valuation',
+                value: p.price,
+                CURRENCY_ISOCODE: 'GBP'
+            }))
+        })
+    });
 })
