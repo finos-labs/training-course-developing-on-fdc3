@@ -8,11 +8,35 @@ type Price = {
     direction: Direction
 }
 
-const prices : Price[] = [{ ticker: "TSLA", price: 44.0, direction: Direction.NONE }];
+function calculateInitialPrice(ticker: string) : number {
+    // with a real trading system, we'd obviously look up the price.
+    // here, we're going to create one pseudorandomly
+    return ticker.split('')
+        .map(c => c.charCodeAt(0))
+        .reduce((a, b) => a+(b*7), 0) % 5000 / 100;
+}
+
+const prices : Price[] = [{ ticker: "TSLA", price: calculateInitialPrice("TSLA"), direction: Direction.NONE }];
 
 var onScreenPrice : Price = prices[0]
 
-function redraw() {
+function redrawChooser() {
+
+    const select = document.getElementById("chooser")!!
+    while (select.lastElementChild) {
+        select.removeChild(select.lastElementChild);
+    }    
+
+    prices.forEach(p => {
+        const option = document.createElement("option");
+        option.selected = p === onScreenPrice;
+        option.textContent = p.ticker
+        option.value = p.ticker
+        select.appendChild(option);
+    })
+}
+
+function redrawPrice() {
     const box = document.getElementById("price")!!
 
     while (box.lastElementChild) {
@@ -48,21 +72,11 @@ function recalculate() {
     })
 }
 
-
 setInterval(() => {
     recalculate(),
-    redraw()
+    redrawPrice()
 }, 2000)
 
-// Lab-3
-
-function calculateInitialPrice(ticker: string) : number {
-    // with a real trading system, we'd obviously look up the price.
-    // here, we're going to create one pseudorandomly
-    return ticker.split('')
-        .map(c => c.charCodeAt(0))
-        .reduce((a, b) => a+b, 0) % 5000 / 100;
-}
 
 function getPrice(ticker: string) : Price {
     // first, check for an existing price
@@ -79,12 +93,33 @@ function getPrice(ticker: string) : Price {
     return price;
 }
 
+function changePrice(ticker: string) {
+    const p = getPrice(ticker);
+    onScreenPrice = p;
+    redrawChooser();
+    redrawPrice();
+
+    // lab-4
+    if (window.fdc3) {
+        window.fdc3.broadcast({type: "fdc3.instrument", id: {"ticker": ticker }})
+    }
+}
+
+window.addEventListener("load", () => {
+    const select = document.getElementById("chooser") as HTMLSelectElement
+    select.addEventListener("change", () => {
+        const ticker = select.options[select.selectedIndex];
+        changePrice(ticker.value);
+     })
+
+})
+
+// lab-3
 fdc3Ready().then(() => {
 
     window.fdc3.addIntentListener("ViewQuote", (instrument) => {
         if (instrument?.id?.ticker) {
-            onScreenPrice = getPrice(instrument.id.ticker);
-            redraw();
+            changePrice(instrument.id.ticker);
         }
     })
 
@@ -92,8 +127,7 @@ fdc3Ready().then(() => {
 
     window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
         if (instrument?.id?.ticker) {
-            onScreenPrice = getPrice(instrument.id.ticker);
-            redraw();
+            changePrice(instrument.id.ticker);
         }
     })
 

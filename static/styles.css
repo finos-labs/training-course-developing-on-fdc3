@@ -57,13 +57,20 @@ form {
     display: flex;
 }
 
-input{
+input {
     width: 100%;
     padding: 10px;
     margin: 10px;
     border-radius: 4px;
     border: 2px solid midnightblue;
     font-size: 20px;
+}
+
+select {
+    width: 80%;
+    font-size: 35px;
+    margin: auto;
+    display: flex;
 }
 
 button {

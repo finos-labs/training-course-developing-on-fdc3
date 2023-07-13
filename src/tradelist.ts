@@ -37,25 +37,36 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     const holding : HTMLTableCellElement = document.createElement("td");
     holding.textContent = ""+si.holding;
     out.appendChild(holding); 
+    const price : HTMLTableCellElement = document.createElement("td");
+    price.textContent = ""+si.value;
+    out.appendChild(price);
+    
     const value : HTMLTableCellElement = document.createElement("td");
-    value.textContent = ""+si.value;
+    value.textContent = ""+(si.value*si.holding);
     out.appendChild(value);
+
     const buttons : HTMLTableCellElement = document.createElement("td");
     const remove : HTMLButtonElement = document.createElement("button");
     buttons.appendChild(remove);
-    remove.textContent="Remove"
+    remove.textContent="X"
     remove.onclick = () => removeStock(si);
     out.appendChild(buttons);
     
     // lab-3
     if (window.fdc3) {
         // news button
+        const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
+
         const news : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(news);
         news.textContent="News"
-        news.onclick = () => window.fdc3.raiseIntent("ViewNews", 
-            { type: "fdc3.instrument", id: { ticker: si.ticker }});
+        news.onclick = () => window.fdc3.raiseIntent("ViewNews", ctx);
 
+        // quote button
+        const price : HTMLButtonElement = document.createElement("button");
+        buttons.appendChild(price);
+        price.textContent="Price"
+        price.onclick = () => window.fdc3.raiseIntent("ViewQuote", ctx);
     }
 
     return out;
@@ -68,6 +79,14 @@ function render() {
     }        
 
     stockItems.map(si => renderStock(si)).forEach(e => stockList.appendChild(e));
+
+    const totalValue = stockItems
+        .map(si => si.holding * si.value)
+        .reduce((a,b) => a+b, 0);
+
+    const totalStr = ""+totalValue
+
+    document.getElementById("total")!!.textContent = totalStr;
 }
 
 const theForm = document.getElementById("js-form") as HTMLFormElement;
