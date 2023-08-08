@@ -1,12 +1,10 @@
-import { Channel, PrivateChannel, fdc3Ready } from "@finos/fdc3";
-
 enum Direction { UP, DOWN, NONE }
 
+// lab-8
 type Price = {
     ticker: string,
     price: number,
     direction: Direction
-    channel?: Channel
 }
 
 function calculateInitialPrice(ticker: string) : number {
@@ -71,10 +69,7 @@ function recalculate() {
         p.price = newPrice;
         p.direction = direction;
 
-         // lab-8
-         if (p.channel) {
-            p.channel.broadcast({type: "fdc3.valuation", value: p.price})
-        }
+        // lab-8
     })
 }
 
@@ -107,10 +102,6 @@ function changePrice(ticker: string) {
         redrawPrice();
 
         // lab-4
-        if (window.fdc3) {
-            window.fdc3.broadcast({type: "fdc3.instrument", id: {"ticker": ticker }})
-        }
-
     }
 }
 
@@ -124,33 +115,7 @@ window.addEventListener("load", () => {
 })
 
 // lab-3
-fdc3Ready().then(() => {
 
-    window.fdc3.addIntentListener("ViewQuote", (instrument) => {
-        if (instrument?.id?.ticker) {
-            changePrice(instrument.id.ticker);
-        }
-    })
+// lab-7
 
-    // lab-7
-
-    window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
-        if (instrument?.id?.ticker) {
-            changePrice(instrument.id.ticker);
-        }
-    })
-
-    // lab-8
-
-    window.fdc3.addIntentListener("GetPrices", async (instrument) => {
-        const price = getPrice(instrument?.id?.ticker ?? "Unknown");
-        if (price.channel == undefined) {
-            const channel: PrivateChannel = await window.fdc3.createPrivateChannel();
-            price.channel = channel;
-            return channel;
-        } else {
-            return price.channel;
-        } 
-    })
-    
-})
+// lab-8
