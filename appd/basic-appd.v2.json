@@ -60,6 +60,20 @@
             },
             "interop": {
                 "intents": {
+                  "listensFor": {
+                    "ViewQuote": {
+                        "displayName": "View Quote",
+                        "contexts": [
+                            "fdc3.instrument"
+                        ]
+                    },
+                    "GetPrices": {
+                        "displayName": "Get Prices",
+                        "contexts": [
+                            "fdc3.instrument"
+                        ]
+                    }
+                  }
                 }
             },
             "hostManifests": {
