@@ -94,14 +94,16 @@ function getPrice(ticker: string) : Price {
 }
 
 function changePrice(ticker: string) {
-    const p = getPrice(ticker);
-    onScreenPrice = p;
-    redrawChooser();
-    redrawPrice();
+    if (ticker !== onScreenPrice.ticker) {
+        const p = getPrice(ticker);
+        onScreenPrice = p;
+        redrawChooser();
+        redrawPrice();
 
-    // lab-4
-    if (window.fdc3) {
-        window.fdc3.broadcast({type: "fdc3.instrument", id: {"ticker": ticker }})
+        // lab-4
+        if (window.fdc3) {
+            window.fdc3.broadcast({type: "fdc3.instrument", id: {"ticker": ticker }})
+        }
     }
 }
 
@@ -139,5 +141,5 @@ fdc3Ready().then(() => {
                 CURRENCY_ISOCODE: 'GBP'
             }))
         })
-    });
+    }, 5000);
 })

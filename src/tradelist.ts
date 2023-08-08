@@ -22,6 +22,9 @@ function addStock(ticker: string, holding: number) {
 
   stockItems.push(stock);
   render();
+  if (window.fdc3) {
+    window.fdc3.raiseIntent("ViewQuote",  { type: "fdc3.instrument", id: { ticker: ticker }});
+  }
 }
 
 function removeStock(si: StockItem) {
@@ -42,7 +45,7 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     out.appendChild(price);
     
     const value : HTMLTableCellElement = document.createElement("td");
-    value.textContent = ""+(si.value*si.holding);
+    value.textContent = (si.value*si.holding).toFixed(2);
     out.appendChild(value);
 
     const buttons : HTMLTableCellElement = document.createElement("td");
@@ -82,7 +85,8 @@ function render() {
 
     const totalValue = stockItems
         .map(si => si.holding * si.value)
-        .reduce((a,b) => a+b, 0);
+        .reduce((a,b) => a+b, 0)
+        .toFixed(2);
 
     const totalStr = ""+totalValue
 
