@@ -1,4 +1,4 @@
-import { Channel, fdc3Ready } from "@finos/fdc3";
+//import { Channel, fdc3Ready } from "@finos/fdc3";
 
 type StockItem = {
     ticker: string, 
@@ -55,7 +55,7 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     remove.onclick = () => removeStock(si);
     out.appendChild(buttons);
     
-    // lab-3
+    // lab-4
     if (window.fdc3) {
         // news button
         const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
@@ -64,7 +64,10 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
         buttons.appendChild(news);
         news.textContent="News"
         news.onclick = () => window.fdc3.raiseIntent("ViewNews", ctx);
+    }
 
+    // lab-6
+    if (window.fdc3) {
         // quote button
         const price : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(price);

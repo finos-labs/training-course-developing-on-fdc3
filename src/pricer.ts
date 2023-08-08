@@ -125,7 +125,7 @@ fdc3Ready().then(() => {
         }
     })
 
-    // lab-4
+    // lab-7
 
     window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
         if (instrument?.id?.ticker) {
