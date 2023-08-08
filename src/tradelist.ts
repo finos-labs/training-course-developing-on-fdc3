@@ -1,3 +1,5 @@
+import {} from '@finos/fdc3'
+
 // lab-8
 type StockItem = {
     ticker: string, 
@@ -54,7 +56,14 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     out.appendChild(buttons);
     
     // lab-4
-
+    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
+    if (window.fdc3) {
+        // news button
+        const news : HTMLButtonElement = document.createElement("button");
+        buttons.appendChild(news);
+        news.textContent="News"
+        news.onclick = () => window.fdc3.raiseIntent("ViewNews", ctx);
+    }
     // lab-6
 
     return out;
@@ -93,6 +102,10 @@ window.addEventListener("load", _e => render());
 
 
 // lab-4
+// redraws the screen when FDC3 is enabled, in case we need to see the new buttons
+fdc3Ready().then(() => {
+    render()
+});
  
 // lab-8
 
