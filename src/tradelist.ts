@@ -1,4 +1,4 @@
-//import { Channel, fdc3Ready } from "@finos/fdc3";
+import { Channel, Context, PrivateChannel, fdc3Ready } from "@finos/fdc3";
 
 type StockItem = {
     ticker: string, 
@@ -56,10 +56,9 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     out.appendChild(buttons);
     
     // lab-4
+    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
     if (window.fdc3) {
         // news button
-        const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
-
         const news : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(news);
         news.textContent="News"
@@ -109,28 +108,43 @@ theForm.addEventListener("submit", event => {
 
 window.addEventListener("load", _e => render());
 
+
+// lab-4
 // redraws the screen when FDC3 is enabled, in case we need to see the new buttons
 fdc3Ready().then(() => {
     render()
-    
-    // lab-4
+});
+ 
+// lab-8
+fdc3Ready().then(() => {
+
+    // make sure we are getting price updates for each stock
     setInterval(() => {
-        // check channels exist
         stockItems.forEach(s => {
             if (!s.channel) {
-                const name = "prices-"+s.ticker;
-                window.fdc3.getOrCreateChannel(name).then(c => {
-                    s.channel = c;
-                    c.addContextListener("fdc3.valuation", valuation => {
-                        if (valuation?.value) {
-                            s.value = parseFloat((Math.round(valuation.value * 100) / 100).toFixed(2));
-                        }
-                    });
-                    console.log("Listening on "+name)
-                });
+                const ctx : Context = { type: "fdc3.instrument", id: { ticker: s.ticker }};
+                window.fdc3.raiseIntent("GetPrices", ctx).then(async r => {
+                    const result = await r.getResult();
+                    if (result?.broadcast) {
+                        const channel = result as PrivateChannel;
+                        s.channel = channel;
+                        channel.addContextListener("fdc3.valuation", valuation => {
+                            if (valuation?.value) {
+                                s.value = parseFloat((Math.round(valuation.value * 100) / 100).toFixed(2));
+                            }
+                        });
+                     }
+                })
             }
         })
-    })
+    }, 500);
 
+    // update the screen
     setInterval(render, 500);
-});
+})
+
+
+
+    
+
+    
