@@ -123,7 +123,7 @@ window.addEventListener("load", () => {
 
 })
 
-// lab-3
+// lab-6
 fdc3Ready().then(() => {
 
     window.fdc3.addIntentListener("ViewQuote", (instrument) => {
@@ -131,16 +131,20 @@ fdc3Ready().then(() => {
             changePrice(instrument.id.ticker);
         }
     })
+});
 
-    // lab-7
+// lab-7
+fdc3Ready().then(() => {
 
     window.fdc3.addContextListener("fdc3.instrument", (instrument) => {
         if (instrument?.id?.ticker) {
             changePrice(instrument.id.ticker);
         }
     })
+});
 
-    // lab-8
+// lab-8
+fdc3Ready().then(() => {
 
     window.fdc3.addIntentListener("GetPrices", async (instrument) => {
         const price = getPrice(instrument?.id?.ticker ?? "Unknown");
