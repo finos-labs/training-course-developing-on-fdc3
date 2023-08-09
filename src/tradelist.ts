@@ -1,6 +1,6 @@
 import { ChannelError, fdc3Ready } from '@finos/fdc3'
 
-// lab-8
+// lab-9
 type StockItem = {
     ticker: string, 
     holding: number,
