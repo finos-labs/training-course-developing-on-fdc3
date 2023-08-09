@@ -114,7 +114,7 @@ window.addEventListener("load", () => {
 
 })
 
-// lab-3
+// lab-6
 
 // lab-7
 
