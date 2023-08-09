@@ -29,6 +29,8 @@ function removeStock(si: StockItem) {
     render();
 }
 
+// lab-7
+
 function renderStock(si: StockItem) : HTMLTableRowElement {
     const out : HTMLTableRowElement = document.createElement("tr");
     const ticker : HTMLTableCellElement = document.createElement("td");
@@ -53,21 +55,17 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     out.appendChild(buttons);
     
     // lab-4
-    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
-    if (window.fdc3) {
-        // news button
-        const news : HTMLButtonElement = document.createElement("button");
-        buttons.appendChild(news);
-        news.textContent="News"
-        news.onclick = () => window.fdc3.raiseIntent("ViewNews", ctx);
-    }
+ 
     // lab-6
+ 
+    // lab-7
+    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
     if (window.fdc3) {
         // quote button
         const price : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(price);
-        price.textContent="Price"
-        price.onclick = () => window.fdc3.raiseIntent("ViewQuote", ctx);
+        price.textContent="..."
+        price.onclick = () => window.fdc3.raiseIntentForContext(ctx);
     }
 
     return out;
@@ -111,4 +109,4 @@ fdc3Ready().then(() => {
     render()
 });
  
-// lab-8
+// lab-9
