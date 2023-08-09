@@ -20,9 +20,6 @@ function addStock(ticker: string, holding: number) {
 
   stockItems.push(stock);
   render();
-  
-  // lab-6
-
 }
 
 function removeStock(si: StockItem) {
