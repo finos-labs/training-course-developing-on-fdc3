@@ -1,10 +1,10 @@
-import { Channel, Context, PrivateChannel, fdc3Ready } from "@finos/fdc3";
+import { fdc3Ready } from '@finos/fdc3'
 
+// lab-9
 type StockItem = {
     ticker: string, 
     holding: number,
     value: number,
-    channel?: Channel
 }
 
 let stockItems : StockItem[] = [ {
@@ -22,15 +22,14 @@ function addStock(ticker: string, holding: number) {
 
   stockItems.push(stock);
   render();
-  if (window.fdc3) {
-    window.fdc3.raiseIntent("ViewQuote",  { type: "fdc3.instrument", id: { ticker: ticker }});
-  }
 }
 
 function removeStock(si: StockItem) {
     stockItems = stockItems.filter(e => e != si);
     render();
 }
+
+// lab-7
 
 function renderStock(si: StockItem) : HTMLTableRowElement {
     const out : HTMLTableRowElement = document.createElement("tr");
@@ -56,23 +55,20 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     out.appendChild(buttons);
     
     // lab-4
-    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
-    if (window.fdc3) {
-        // news button
-        const news : HTMLButtonElement = document.createElement("button");
-        buttons.appendChild(news);
-        news.textContent="News"
-        news.onclick = () => window.fdc3.raiseIntent("ViewNews", ctx);
-    }
-
+ 
     // lab-6
+ 
+    // lab-7
+    const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
     if (window.fdc3) {
         // quote button
         const price : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(price);
-        price.textContent="Price"
-        price.onclick = () => window.fdc3.raiseIntent("ViewQuote", ctx);
+        price.textContent="..."
+        price.onclick = () => window.fdc3.raiseIntentForContext(ctx);
     }
+
+    // lab-7
 
     return out;
 }
@@ -115,36 +111,4 @@ fdc3Ready().then(() => {
     render()
 });
  
-// lab-8
-fdc3Ready().then(() => {
-
-    // make sure we are getting price updates for each stock
-    setInterval(() => {
-        stockItems.forEach(s => {
-            if (!s.channel) {
-                const ctx : Context = { type: "fdc3.instrument", id: { ticker: s.ticker }};
-                window.fdc3.raiseIntent("GetPrices", ctx).then(async r => {
-                    const result = await r.getResult();
-                    if (result?.broadcast) {
-                        const channel = result as PrivateChannel;
-                        s.channel = channel;
-                        channel.addContextListener("fdc3.valuation", valuation => {
-                            if (valuation?.value) {
-                                s.value = parseFloat((Math.round(valuation.value * 100) / 100).toFixed(2));
-                            }
-                        });
-                     }
-                })
-            }
-        })
-    }, 500);
-
-    // update the screen
-    setInterval(render, 500);
-})
-
-
-
-    
-
-    
+// lab-9
