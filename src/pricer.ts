@@ -2,7 +2,7 @@ import { fdc3Ready } from "@finos/fdc3";
 
 enum Direction { UP, DOWN, NONE }
 
-// lab-8
+// lab-9
 type Price = {
     ticker: string,
     price: number,
@@ -71,7 +71,7 @@ function recalculate() {
         p.price = newPrice;
         p.direction = direction;
 
-        // lab-8
+        // lab-9
     })
 }
 
