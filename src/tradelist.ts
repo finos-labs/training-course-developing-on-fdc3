@@ -29,6 +29,8 @@ function removeStock(si: StockItem) {
     render();
 }
 
+// lab-7
+
 function renderStock(si: StockItem) : HTMLTableRowElement {
     const out : HTMLTableRowElement = document.createElement("tr");
     const ticker : HTMLTableCellElement = document.createElement("td");
@@ -69,6 +71,8 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
         price.textContent="Price"
         price.onclick = () => window.fdc3.raiseIntent("ViewQuote", ctx);
     }
+
+    // lab-7
 
     return out;
 }
@@ -112,3 +116,5 @@ fdc3Ready().then(() => {
 });
  
 // lab-8
+
+// lab-9
