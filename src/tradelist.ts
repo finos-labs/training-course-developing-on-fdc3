@@ -68,6 +68,8 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
         price.onclick = () => window.fdc3.raiseIntentForContext(ctx);
     }
 
+    // lab-7
+
     return out;
 }
 

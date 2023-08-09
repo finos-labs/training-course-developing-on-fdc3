@@ -103,7 +103,7 @@ function changePrice(ticker: string) {
         redrawChooser();
         redrawPrice();
 
-        // lab-4
+        // lab-8
     }
 }
 
