@@ -27,6 +27,8 @@ function removeStock(si: StockItem) {
     render();
 }
 
+// lab-7
+
 function renderStock(si: StockItem) : HTMLTableRowElement {
     const out : HTMLTableRowElement = document.createElement("tr");
     const ticker : HTMLTableCellElement = document.createElement("td");
@@ -53,6 +55,8 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     // lab-4
 
     // lab-6
+
+    // lab-7
 
     return out;
 }
@@ -91,7 +95,7 @@ window.addEventListener("load", _e => render());
 
 // lab-4
  
-// lab-8
+// lab-9
 
 
 
