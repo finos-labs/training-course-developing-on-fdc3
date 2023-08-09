@@ -66,6 +66,12 @@
                     "contexts": [
                         "fdc3.instrument"
                     ]
+                  },
+                  "demo.GetPrices": {
+                    "displayName": "Get Prices",
+                    "contexts": [
+                        "fdc3.instrument"
+                    ]
                   }
                 }
               }

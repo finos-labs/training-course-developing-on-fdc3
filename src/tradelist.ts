@@ -1,10 +1,11 @@
-import { fdc3Ready } from '@finos/fdc3'
+import { fdc3Ready, Channel, Context, PrivateChannel } from '@finos/fdc3'
 
 // lab-9
 type StockItem = {
     ticker: string, 
     holding: number,
     value: number,
+    channel?: Channel
 }
 
 let stockItems : StockItem[] = [ {
@@ -112,3 +113,29 @@ fdc3Ready().then(() => {
 });
  
 // lab-9
+fdc3Ready().then(() => {
+
+    // make sure we are getting price updates for each stock
+    setInterval(() => {
+        stockItems.forEach(s => {
+            if (!s.channel) {
+                const ctx : Context = { type: "fdc3.instrument", id: { ticker: s.ticker }};
+                window.fdc3.raiseIntent("demo.GetPrices", ctx).then(async r => {
+                    const result = await r.getResult();
+                    if (result?.broadcast) {
+                        const channel = result as PrivateChannel;
+                        s.channel = channel;
+                        channel.addContextListener("fdc3.valuation", valuation => {
+                            if (valuation?.value) {
+                                s.value = parseFloat((Math.round(valuation.value * 100) / 100).toFixed(2));
+                            }
+                        });
+                     }
+                })
+            }
+        })
+    }, 500);
+
+    // update the screen
+    setInterval(render, 500);
+})

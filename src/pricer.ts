@@ -1,4 +1,4 @@
-import { fdc3Ready } from "@finos/fdc3";
+import { Channel, PrivateChannel, fdc3Ready } from "@finos/fdc3";
 
 enum Direction { UP, DOWN, NONE }
 
@@ -6,7 +6,8 @@ enum Direction { UP, DOWN, NONE }
 type Price = {
     ticker: string,
     price: number,
-    direction: Direction
+    direction: Direction,
+    channel?: Channel
 }
 
 function calculateInitialPrice(ticker: string) : number {
@@ -72,6 +73,9 @@ function recalculate() {
         p.direction = direction;
 
         // lab-9
+        if (p.channel) {
+            p.channel.broadcast({type: "fdc3.valuation", value: p.price})
+        }
     })
 }
 
@@ -140,3 +144,13 @@ fdc3Ready().then(() => {
 });
 
 // lab-9
+window.fdc3.addIntentListener("demo.GetPrices", async (instrument) => {
+    const price = getPrice(instrument?.id?.ticker ?? "Unknown");
+    if (price.channel == undefined) {
+        const channel: PrivateChannel = await window.fdc3.createPrivateChannel();
+        price.channel = channel;
+        return channel;
+    } else {
+        return price.channel;
+    } 
+})
