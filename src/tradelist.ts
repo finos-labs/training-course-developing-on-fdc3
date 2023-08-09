@@ -55,7 +55,6 @@ function renderStock(si: StockItem) : HTMLTableRowElement {
     // lab-4
     const ctx =  { type: "fdc3.instrument", id: { ticker: si.ticker }};
     if (window.fdc3) {
-        const intents = await window.fdc3.findIntentsByContext(ctx)
         // news button
         const news : HTMLButtonElement = document.createElement("button");
         buttons.appendChild(news);
@@ -113,9 +112,3 @@ fdc3Ready().then(() => {
 });
  
 // lab-8
-
-
-ChannelError
-    
-
-    
