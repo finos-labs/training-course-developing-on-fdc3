@@ -59,8 +59,16 @@
                 "url": "http://localhost:5000/static/pricer/index.html"
             },
             "interop": {
-                "intents": {
+              "intents": {
+                "listensFor": {
+                  "ViewQuote": {
+                      "displayName": "View Quote",
+                      "contexts": [
+                          "fdc3.instrument"
+                      ]
+                  }
                 }
+              }
             },
             "hostManifests": {
                 "sail": {

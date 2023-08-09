@@ -1,3 +1,5 @@
+import { fdc3Ready } from "@finos/fdc3";
+
 enum Direction { UP, DOWN, NONE }
 
 // lab-8
@@ -115,6 +117,14 @@ window.addEventListener("load", () => {
 })
 
 // lab-6
+fdc3Ready().then(() => {
+
+    window.fdc3.addIntentListener("ViewQuote", (instrument) => {
+        if (instrument?.id?.ticker) {
+            changePrice(instrument.id.ticker);
+        }
+    })
+})
 
 // lab-7
 
