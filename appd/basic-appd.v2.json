@@ -72,7 +72,7 @@
             },
             "hostManifests": {
                 "sail": {
-                    "injectApi": "1.2"
+                    "injectApi": "2.0"
                 }
             }
         },
@@ -99,7 +99,7 @@
             "interop": {},
             "hostManifests": {
                 "sail": {
-                    "injectApi": "1.2"
+                    "injectApi": "2.0"
                 }
             }
         },
@@ -135,7 +135,7 @@
             },
             "hostManifests": {
              "sail" : {
-                "injectApi": "1.2"
+                "injectApi": "2.0"
               },
               "Glue42": {
                 "type": "window",
